@@ -15,13 +15,17 @@ alias sudo='sudo ';
 paths_to_add=(
 	# Private "bin"
 	"$HOME/bin"
-	# Homebrew, Rudix (and various other distributions and local installations)
-	/usr/local/{,s}bin
 	# MacPorts
 	/opt/local/{,s}bin
+	# Homebrew, Rudix (and various other distributions and local installations)
+	/usr/local/{,s}bin
 	# System
 	/{,s}bin
 	/usr/{,s}bin
+  # node modules & yeoman
+  /usr/local/share/npm/bin
+  # google depot tools (chromium)
+	"$HOME/bin/depot_tools"
 	# X binaries
 	/usr/X11/bin
 );
@@ -1085,3 +1089,7 @@ function ssh-mysqldump {
 	fi;
 	return $result;
 }
+
+export DRUSH_PHP=/Applications/MAMP/bin/php/php5.4.4/bin/php
+export PATH=/Applications/MAMP/Library/bin:$PATH
+#export PATH=/Applications/MAMP/bin:/Applications/MAMP/Library/bin:/Applications/MAMP/bin/php/php5.4.4/bin:$PATH
