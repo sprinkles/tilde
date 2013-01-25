@@ -16,17 +16,17 @@ format_concise_parts=(
 	'%C(yellow)%h%C(reset) '
 
 	# Relative date (age). E.g., "3 days ago". Abbreviated by "sed" below.
-	'%C(bold black)(%ar)%C(reset) '
+	'%C(blue)(%ar)%C(reset) '
 
 	# Subject. E.g., "Homepage: add Frobnitz widget".
 	'%s '
 
 	# Author name. E.g., "Jan Moesen".
-	'%C(bold black)(%an)%C(reset)'
+	'%C(blue)(%an)%C(reset)'
 
 	# Branches. (Always wrapped in parentheses and preceded by a space.)
 	# E.g., "(HEAD, origin/master, origin/frobnitz)
-	'%C(bold blue)%d%C(reset)'
+	'%C(bold yellow)%d%C(reset)'
 );
 printf -v format_concise '%s' "${format_concise_parts[@]}";
 
@@ -52,21 +52,21 @@ if [ "$git_color_option" = 'never' ]; then
 	format_concise="${format_concise//%C(+([^)]))}";
 fi;
 
-git log --color="$git_color_option" --pretty="format:$format_concise" -n 20 "$@" | sed '
+git log --color="$git_color_option" --pretty="format:$format_concise" -n 20 "$@" | perl -p -e '
 	# Change "3 weeks ago" into "3 weeks".
-	s/^\([^)]*\) ago)/\1)/;
+	s/^([^)]*) ago\)/\1)/;
 
 	# Abbreviate the time units.
-	s/^\([^)]*\) \(s\)econds)/\1\2)/;
-	s/^\([^)]*\) \(m\)inutes)/\1\2)/;
-	s/^\([^)]*\) \(h\)ours)/\1\2)/;
-	s/^\([^)]*\) \(d\)ays)/\1\2)/;
-	s/^\([^)]*\) \(w\)eeks)/\1\2)/;
-	s/^\([^)]*\) \(mon\)ths)/\1 \2)/;
-	s/^\([^)]*\) \(y\)ear[^)]*)/\1\2)/;
+	s/^([^)]*) (s)econd(s?)\)/\1\2)/;
+	s/^([^)]*) (m)inute(s?)\)/\1\2)/;
+	s/^([^)]*) (h)our(s?)\)/\1\2)/;
+	s/^([^)]*) (d)ay(s?)\)/\1\2)/;
+	s/^([^)]*) (w)eek(s?)\)/\1\2)/;
+	s/^([^)]*) (mon)th(s?)\)/\1 \2)/;
+	s/^([^)]*) (y)ear[^)]*\)/\1\2)/;
 
 	# Use at least two digits before the time unit for nicer alignment
 	# (until there are commits older than nine years). Of course, because of
 	# "mon" for "months", alignment is off for old-ish commits.
-	s/(\([0-9]\)\([^0-9 ]\)/ (\1\2/;
+	s/\(([0-9])([^0-9 ])/ (\1\2/;
 ' | $(git var GIT_PAGER);
