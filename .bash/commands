@@ -15,10 +15,10 @@ alias sudo='sudo ';
 paths_to_add=(
 	# Private "bin"
 	"$HOME/bin"
-	# MacPorts
-	/opt/local/{,s}bin
 	# Homebrew, Rudix (and various other distributions and local installations)
 	/usr/local/{,s}bin
+	# MacPorts
+	/opt/local/{,s}bin
 	# System
 	/{,s}bin
 	/usr/{,s}bin
@@ -1095,6 +1095,7 @@ function ssh-mysqldump {
 	return $result;
 }
 
-export DRUSH_PHP=/Applications/MAMP/bin/php/php5.4.4/bin/php
-export PATH=/Applications/MAMP/Library/bin:$PATH
+
+#export DRUSH_PHP=/Applications/MAMP/bin/php/php5.4.4/bin/php
+#export PATH=/Applications/MAMP/Library/bin:$PATH
 #export PATH=/Applications/MAMP/bin:/Applications/MAMP/Library/bin:/Applications/MAMP/bin/php/php5.4.4/bin:$PATH
